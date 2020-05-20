@@ -1,6 +1,6 @@
 import random
 import csv
-import itertools
+import time
 import re
 import sys
 from os import system
@@ -14,10 +14,11 @@ if len(sys.argv) != 2:
 
 # functions
 def trimandlowerword(string) -> str:
-    return string.lower()[slice(string.index(' '))] if " " in string else string.lower()
+    return string.lower().strip()
 
 
 wrongAnswersDict = {}
+startTime = time.time()
 
 system('cls')
 
@@ -37,7 +38,7 @@ print(f'Starting vocabulary quiz with {len(vocab_dict)} words...')
 input("*Press ENTER to begin*\n")
 
 # start quiz
-for word in itertools.islice(vocab_dict, 0, 5):
+for word in vocab_dict:
     wordVariations = word.count('/') + 1
     if wordVariations == 1:
         print(f'\nTranslate the following word to french: {vocab_dict[word]}')
@@ -56,8 +57,8 @@ for word in itertools.islice(vocab_dict, 0, 5):
 
 # results
 print(f'\n********************* RESULTS - {100 - ((len(wrongAnswersDict) / len(vocab_dict)) * 100):.2f}% ***********************')
-print('{0: <20}'.format('English') + '{0: <25}'.format('French') + '{0: <25}'.format('Attempt'))
+print('{0: <26}'.format('English') + '{0: <25}'.format('French') + '{0: <25}'.format('Attempt'))
 for word in wrongAnswersDict:
-    print('{0: <20}'.format(vocab_dict[word]) + '{0: <25}'.format(word) + '{0: <25}'.format(wrongAnswersDict[word]))
-print('**************************************************************')
+    print('{0: <26}'.format(vocab_dict[word]) + '{0: <25}'.format(word) + '{0: <25}'.format(wrongAnswersDict[word]))
+print(f'****************** Completed in {((time.time() - startTime)/60):.2f mins} **********************')
 
